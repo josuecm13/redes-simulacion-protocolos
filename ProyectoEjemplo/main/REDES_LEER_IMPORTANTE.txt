@@ -1,0 +1,6 @@
+*** Abrir el archivo main.pde para correr todo el proyecto ***
+
+El archivo principal debe llamarse igual al nombre del directorio
+Para crear una clase, tocar la pestaña y agregar el archivo de esa manera.
+
+

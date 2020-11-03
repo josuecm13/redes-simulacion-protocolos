@@ -1,0 +1,3 @@
+interface HittableByCar{
+  void stop();
+}
