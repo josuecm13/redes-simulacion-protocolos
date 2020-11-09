@@ -1,27 +1,84 @@
-PImage a, b, router;
+Placeable machineA, machineB, routerA, routerB;
+GuiPath lineAtoB, lineBtoA, lineAtoRouter, lineBtoRouter;
+Movable frame, f2; 
+int delay;
+
+ArrayList<Placeable> components;
+ArrayList<PVector> path, path2, conn1, conn2;
 
 void setup(){
   size(1000,600, P2D);
-  background(240);
+  frameRate(600);
+  lineAtoB = new GuiPath();
+  lineBtoA = new GuiPath();
+  lineAtoRouter = new GuiPath();
+  lineBtoRouter = new GuiPath();
   
-  /*Loading Images*/
-  a = loadImage("./img/MachineA.png");
-  b = loadImage("./img/MachineB.png");
-  router = loadImage("./img/Router.png");
+  delay = 150;
   
-  /*Resizing images*/
-  a.resize(60,60);
-  b.resize(60,60);
-  router.resize(60, 35);
+  machineA = new GuiMachine((width/2 - 300),( height/2 - 150), MachineType.A);
+  machineB = new GuiMachine((width/2 + 300),( height/2 - 50), MachineType.B);
+  routerA = new GuiRouter((width/2 - 150),( height/2 - 150));
+  routerB = new GuiRouter((width/2 + 150),( height/2 - 50));
+  frame = new GuiFrame(routerA.pos.x, routerA.pos.y);
+  f2 = new GuiFrame(routerB.pos.x,routerB.pos.y);
+  
+  conn1 = new ArrayList(); conn2 = new ArrayList();
+  conn1.add(new PVector(machineA.pos.x, machineA.pos.y));
+  conn1.add(new PVector(routerA.pos.x, routerA.pos.y));
+  
+  conn2.add(new PVector(machineB.pos.x, machineB.pos.y));
+  conn2.add(new PVector(routerB.pos.x, routerB.pos.y));
+  
+  lineAtoRouter.setPath(new ArrayList(conn1));
+  lineBtoRouter.setPath(new ArrayList(conn2));
+  
+  path = new ArrayList();
+  path.add(new PVector((width/2 - 150), ( height/2 - 100)));
+  path.add(new PVector((width/2 - 150), ( height/2 - 200)));
+  path.add(new PVector((width/2 + 150), ( height/2 - 200)));
+  path.add(new PVector((width/2 + 150), ( height/2 - 100)));
+  
+  lineAtoB.setPath(new ArrayList(path));
+  
+  path2= new ArrayList();
+  path2.add(new PVector((width/2 + 150), ( height/2 - 100)));
+  path2.add(new PVector((width/2 + 150), ( height/2)));
+  path2.add(new PVector((width/2 - 150), ( height/2)));
+  path2.add(new PVector((width/2 - 150), ( height/2 - 100)));
+  
+  lineBtoA.setPath(new ArrayList(path2));
+  
+  frame.setPath(path);
+  f2.setPath(new ArrayList(path2));
+  
+  components = new ArrayList();
+  components.add(lineAtoRouter);
+  components.add(lineBtoRouter);
+  components.add(machineA);
+  components.add(machineB);
+  components.add(lineAtoB);
+  components.add(lineBtoA);
+  components.add(routerA);
+  components.add(routerB);
 }
-
 
 void draw(){
-  image(a, (width/2 -30) - 350, (height/2 - 30) - 100 );
-  image(b, (width/2 -30) + 350, (height/2 - 30) - 100 );
-  image(router, (width/2 - 30) - 200, (height/2 -17) - 100 );
-  image(router, (width/2 - 30) + 200, (height/2 -17) - 100 );
+  clear();
+  background(240);
+  
+  for (Placeable p: components){
+    p.display();
+  }
+  frame.update();
+  if(delay > 0){
+    delay--;
+  }else{
+    f2.update();
+  }
 }
+
+
  /*
 PFont myFont;
 void setup(){

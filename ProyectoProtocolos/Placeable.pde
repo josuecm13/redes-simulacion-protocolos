@@ -1,8 +1,17 @@
+/*
+Author: Josue Canales Mena
+Date: 08/11/2020
+*/
+
 public abstract class Placeable{
   PImage image;
   PVector pos;
-  float _width;
-  float _height;
+  double _width;
+  double _height;
   
-  public abstract void display();
+  public void display(){
+    image(image,  (float) (pos.x - (_width/2)), (float) (pos.y - (_height/2)));
+  }
+  
+  
 }
