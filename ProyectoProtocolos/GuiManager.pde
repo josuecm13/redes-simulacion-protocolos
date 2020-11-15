@@ -65,13 +65,15 @@ public class GuiManager{
     showing = new ArrayList();
   }
   
-  public void HideComponent(GuiComponents comp, int index){
+  public void hideComponent(GuiComponents comp, int index){
     for (Placeable c: showing){
       if(isType(c, comp)){
         if( index != 0 ){
           index --;  
         }else{
-          showing.remove(c);
+          int i = showing.indexOf(c);
+          showing.remove(i);
+          return;
         }
       }
     }
@@ -85,7 +87,7 @@ public class GuiManager{
   }
   
   public void showComponent(GuiComponents comp, int index){
-    for (Placeable c: allComponents){ //<>//
+    for (Placeable c: allComponents){
       if(isType(c, comp)){
         if( index != 0 ){
           index --;  
@@ -104,7 +106,20 @@ public class GuiManager{
         showing.add(c);
       }
     }
-  }  
+  }
+  
+  public void displayFrame(int index){
+    print("Show Frame - ");
+    for (Placeable c: showing){
+      if(isType(c, GuiComponents.Frame)){
+        if( index != 0 ){
+          index --;  
+        }else{
+          ((GuiFrame) c).play(true);
+        }
+      }
+    }
+  }
   
   
   /* 
@@ -157,6 +172,7 @@ public class GuiManager{
     }
     
     frame.setPath(path);
+    frame.setParent(this);
     
     this.allComponents.add(0, guiP);
   }

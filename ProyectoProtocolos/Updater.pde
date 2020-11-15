@@ -9,6 +9,7 @@ public class Updater{
   float stepRate;
   int direction;
   PVector currentGoal;
+  GuiFrame manager;
   
   private int moment;
   private Boolean isUpward;
@@ -76,9 +77,18 @@ public class Updater{
         moment = 1;
         direction = isUpward ? -1: 1;
         xAxis = false;
-        print("Entregó Frame\n");
+        
+        if(isLeftToRight)
+          this.manager.hide(0); //<>//
+        else
+          this.manager.hide(1);
+        frameSent();
       }
     }
+  }
+  
+  public void frameSent(){
+    print("Entregó Frame\n");
   }
   
   public void setStepRate(float stepRate){
@@ -106,9 +116,10 @@ public class Updater{
   private void checkOrientation(){
     if (this.fullPath.size() != 4)
       return;
-    if( this.fullPath.get(1).x < this.fullPath.get(2).x )
+    if( this.fullPath.get(1).x < this.fullPath.get(2).x ){
       isLeftToRight = true;
-    else
+    }else{
       isLeftToRight = false;
+    }
   }
 }

@@ -30,8 +30,11 @@ void draw(){
     d = 40;
   }
   if(d  == 0){
-    print("Show Frame");
+    print("Show Frame - ");
     gui.showComponent(GuiComponents.Frame,0);
+  }
+  if(d == -500){
+    gui.displayFrame(0);
   }
   
   delay--; d --;
