@@ -69,13 +69,14 @@ public class Updater{
         direction = isLeftToRight ? 1: -1;
         xAxis = true;
       }
-      if (moment == 4){
+      if (moment == 4){ /* IMPORTANTE: AQUI EL PAQUETE LLEGÓ AL OTRO ROUTER*/
         item.pos.x = fullPath.get(0).x;
         item.pos.y = fullPath.get(0).y;
         rollFirstItem();
         moment = 1;
         direction = isUpward ? -1: 1;
         xAxis = false;
+        print("Entregó Frame\n");
       }
     }
   }

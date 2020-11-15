@@ -8,6 +8,7 @@ public abstract class Placeable{
   PVector pos;
   double _width;
   double _height;
+  GuiComponents type;
   
   public void display(){
     image(image,  (float) (pos.x - (_width/2)), (float) (pos.y - (_height/2)));

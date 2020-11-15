@@ -6,6 +6,7 @@ Date: 08/11/2020
 public class GuiMachine extends Placeable{
   
   double heightProportion = 1;
+  MachineType type;
   
   public GuiMachine(float x, float y, int _width, MachineType type){
     this._width = _width;
@@ -15,6 +16,7 @@ public class GuiMachine extends Placeable{
       this.image = loadImage("./img/MachineA.png");
     else if (MachineType.B == type)
       this.image = loadImage("./img/MachineB.png");
+    this.type = type;
     image.resize((int) this._width, (int) this._height);
   }
   

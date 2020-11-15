@@ -7,6 +7,7 @@ public class GuiFrame extends Placeable implements Movable{
   
   Updater updater;
   ArrayList<PVector> path;
+  Boolean state;
   double heightProportion = 0.355387523629;
   
   public GuiFrame(float x, float y, int _width){
@@ -15,6 +16,7 @@ public class GuiFrame extends Placeable implements Movable{
     this.pos = new PVector(x,y);
     this.image = loadImage("./img/Frame.png");
     this.updater = new Updater();
+    this.state = false;
     image.resize((int) this._width, (int) this._height);
   }
   
@@ -27,8 +29,18 @@ public class GuiFrame extends Placeable implements Movable{
     this.updater.setPath(path);
   }
   
+  @Override
+  public void display(){
+    super.display();
+    if(state)
+      update();
+  }
+  
   public void update(){
     updater.update(this);
-    display();
+  }
+  
+  public void play(Boolean state){
+    this.state = state; //<>//
   }
 }
