@@ -4,7 +4,11 @@ public class Frame{
   int seq; // Secuencia
   int ack; // Confirmacion
   Paquete info;
- 
+  
+  public Frame(){
+    info = new Paquete();
+  }
+  
   public int getFrame_kind(){
     return frame_kind;
   }

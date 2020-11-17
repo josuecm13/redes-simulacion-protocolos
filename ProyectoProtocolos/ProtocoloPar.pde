@@ -15,7 +15,7 @@ public class ProtocoloPar{
     Frame f = new Frame();
     Paquete buffer = new Paquete();
     int next_frame_to_send = 0;
-    buffer = capaRed.from_network_layer(buffer);
+    buffer = capaRed.from_network_layer();
     while(true){
       f.setInfo(buffer);
       f.setSeq(next_frame_to_send);
@@ -32,7 +32,7 @@ public class ProtocoloPar{
     Frame s = new Frame();
     while(true){
       wait_for_event(true); // Esto hay que verlo bien
-      capaFisica.from_physical_layer(r);
+      capaFisica.from_physical_layer();
       capaRed.to_network_layer(r.getInfo());
       capaFisica.to_physical_layer(s);
     }
