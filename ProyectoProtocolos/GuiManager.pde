@@ -14,7 +14,7 @@ public class GuiManager{
   ArrayList<Placeable> showing;
   int windowSize, refreshRate;
   float pErrorChecksum, pErrorPacket;
-  // ProtocoloManager pm = new ProtocoloManager();
+  ProtocoloManager pm;
   
   public GuiManager(float w, float h){
     this._width = w;
@@ -26,7 +26,7 @@ public class GuiManager{
   }
   
   public GuiManager(float w, float h, ArrayList<GuiComponents> components){
-    this._width = w;
+    this._width = w; //<>//
     this._height = h;
     this.refreshRate = 30;
     allComponents = new ArrayList();
@@ -55,8 +55,8 @@ public class GuiManager{
       if(isType(p, GuiComponents.Frame)){
         if(((GuiFrame) p).arrived == true){
           // Notificar al ProcoloManager que el paquete ya llego
+          pm.arrived(0); //<>//
           gui.displayFrame(0);
-          delay(3000);
           ((GuiFrame) p).arrived = false;
         }
       }
@@ -130,6 +130,32 @@ public class GuiManager{
     }
   }
   
+  public void setProtocol(int index){
+    switch(index){
+      case 1:{
+        pm = new ProtocoloManager(new ProtocoloUtopia()); //<>//
+        showComponent(GuiComponents.Frame,0);
+        break;
+      }case 2:{
+        pm = new ProtocoloManager(new ProtocoloStopAndWait());
+        showComponent(GuiComponents.Frame,0);
+        break;
+      }/*case 3:{
+      
+      }case 4:{
+      
+      }case 5:{
+      
+      }case 6:{
+      
+      }*/default:{
+        pm = new ProtocoloManager(new ProtocoloUtopia());
+        showComponent(GuiComponents.Frame,0);
+      }
+    }
+    // 
+  }
+  
   
   /* 
   
@@ -185,6 +211,8 @@ public class GuiManager{
     
     this.allComponents.add(0, guiP);
   }
+  
+  
   
   private Placeable findWhereWidthLessThan(GuiComponents comp, int w){
     for (Placeable p: allComponents){

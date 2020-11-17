@@ -20,6 +20,7 @@ public class GuiFrame extends Placeable implements Movable{
     this.updater = new Updater();
     this.state = false;
     this.displaying = true;
+    this.arrived = false;
     image.resize((int) this._width, (int) this._height);
   }
   

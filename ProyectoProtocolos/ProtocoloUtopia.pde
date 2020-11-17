@@ -1,6 +1,11 @@
-public class ProtocoloUtopia{
-  CapaRed capaRed = new CapaRed();
-  CapaFisica capaFisica = new CapaFisica();
+public class ProtocoloUtopia extends Protocolo implements IUnidireccional{
+ 
+  public ProtocoloUtopia(){
+    capaRed = new CapaRed(); //<>//
+    capaFisica = new CapaFisica();
+    receiver();
+  }
+  
   /*
   public void sender(){
     Paquete buffer = new Paquete();
@@ -21,7 +26,7 @@ public class ProtocoloUtopia{
   }
   */
   
-  public void sender(){
+  public void sender(Boolean error){
     Paquete buffer = new Paquete();
     Frame f = new Frame();
     buffer = capaRed.from_network_layer(buffer);
@@ -30,7 +35,7 @@ public class ProtocoloUtopia{
   }
   
   public void receiver(){
-    Frame r = new Frame();
+    Frame r = new Frame(); //<>//
     r = capaFisica.from_physical_layer(r);
     capaRed.to_network_layer(r.getInfo());
   }

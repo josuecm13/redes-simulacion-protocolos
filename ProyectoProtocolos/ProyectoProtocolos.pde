@@ -14,10 +14,11 @@ void setup(){
   comps.add( GuiComponents.MachineB );
   comps.add( GuiComponents.Frame );
   
-  delay = 40;
+  delay = 0;
   d = -1;
   gui = new GuiManager(width, height, comps);
   frameRate(gui.refreshRate);
+  gui.setProtocol(2); //<>//
 }
 
 void draw(){
@@ -27,12 +28,12 @@ void draw(){
   
   if(delay  == 0){
     gui.start();
-    d = 40;
-  }
+    //d = 40;
+  }/*
   if(d  == 0){
     print("Show Frame - ");
     gui.showComponent(GuiComponents.Frame,0);
-  }
+  }*/
   /*
   if(d == -500){
     gui.displayFrame(0);
