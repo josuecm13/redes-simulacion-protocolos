@@ -14,6 +14,7 @@ public class GuiManager{
   ArrayList<Placeable> showing;
   int windowSize, refreshRate;
   float pErrorChecksum, pErrorPacket;
+  // ProtocoloManager pm = new ProtocoloManager();
   
   public GuiManager(float w, float h){
     this._width = w;
@@ -51,6 +52,14 @@ public class GuiManager{
   
   public void display(){
     for(Placeable p: showing){
+      if(isType(p, GuiComponents.Frame)){
+        if(((GuiFrame) p).arrived == true){
+          // Notificar al ProcoloManager que el paquete ya llego
+          gui.displayFrame(0);
+          delay(3000);
+          ((GuiFrame) p).arrived = false;
+        }
+      }
       p.display();
     }
   }

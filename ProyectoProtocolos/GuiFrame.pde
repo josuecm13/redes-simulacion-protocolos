@@ -10,6 +10,7 @@ public class GuiFrame extends Placeable implements Movable{
   Boolean state, displaying;
   double heightProportion = 0.355387523629;
   GuiManager manager;
+  boolean arrived = false;
   
   public GuiFrame(float x, float y, int _width){
     this._width = _width;

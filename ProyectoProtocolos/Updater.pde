@@ -19,11 +19,11 @@ public class Updater{
     this.xAxis = false;
     moment = 1;
     direction = 1;
-    setStepRate(2);
+    setStepRate(5);
   }
   
   public Updater(ArrayList<PVector> fullpath){
-    setStepRate(2);
+    setStepRate(5);
     setPath(fullpath);
   }
   
@@ -88,6 +88,7 @@ public class Updater{
   }
   
   public void frameSent(){
+    this.manager.arrived = true;
     print("Entregó Frame\n");
   }
   
