@@ -29,15 +29,17 @@ public class ProtocoloStopAndWait extends Protocolo implements IUnidireccional{
   public void sender(Boolean error){
     Paquete buffer = new Paquete();
     Frame f = new Frame();
-    buffer = capaRed.from_network_layer(buffer);
+    buffer = capaRed.from_network_layer();
     f.setInfo(buffer);
+    print(f.getInfo().getData());
     capaFisica.to_physical_layer(f);
   }
   
   public void receiver(){
     Frame r = new Frame();
     delay(4000);
-    r = capaFisica.from_physical_layer(r);
+    r = capaFisica.from_physical_layer();
+    //print(r.getInfo().getData());
     capaRed.to_network_layer(r.getInfo());
   }
 }
