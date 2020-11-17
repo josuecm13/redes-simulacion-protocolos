@@ -26,7 +26,7 @@ public class GuiManager{
   }
   
   public GuiManager(float w, float h, ArrayList<GuiComponents> components){
-    this._width = w; //<>//
+    this._width = w; //<>// //<>//
     this._height = h;
     this.refreshRate = 30;
     allComponents = new ArrayList();
@@ -55,7 +55,7 @@ public class GuiManager{
       if(isType(p, GuiComponents.Frame)){
         if(((GuiFrame) p).arrived == true){
           // Notificar al ProcoloManager que el paquete ya llego
-          pm.arrived(0); //<>//
+          pm.arrived(0); //<>// //<>//
           gui.displayFrame(0);
           ((GuiFrame) p).arrived = false;
         }
@@ -133,7 +133,7 @@ public class GuiManager{
   public void setProtocol(int index){
     switch(index){
       case 1:{
-        pm = new ProtocoloManager(new ProtocoloUtopia()); //<>//
+        pm = new ProtocoloManager(new ProtocoloUtopia()); //<>// //<>//
         showComponent(GuiComponents.Frame,0);
         break;
       }case 2:{

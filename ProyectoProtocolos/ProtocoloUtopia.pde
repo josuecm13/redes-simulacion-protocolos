@@ -3,7 +3,7 @@ public class ProtocoloUtopia extends Protocolo implements IUnidireccional{
   public ProtocoloUtopia(){
     capaRed = new CapaRed(); //<>//
     capaFisica = new CapaFisica();
-    receiver();
+    sender(false);
   }
   
   /*
