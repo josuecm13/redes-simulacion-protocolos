@@ -1,4 +1,4 @@
-public class Paquete{
+public class Package{
   String data;
  
   public void setData(String data){

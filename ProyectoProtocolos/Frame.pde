@@ -3,10 +3,10 @@ public class Frame{
   int frame_kind;
   int seq; // Secuencia
   int ack; // Confirmacion
-  Paquete info;
+  Package info;
   
   public Frame(){
-    info = new Paquete();
+    info = new Package();
   }
   
   public int getFrame_kind(){
@@ -33,11 +33,11 @@ public class Frame{
     this.ack = ack;
   }
   
-  public Paquete getInfo(){
+  public Package getInfo(){
     return info;
   }
   
-  public void setInfo(Paquete info){
+  public void setInfo(Package info){
     this.info = info;
   }
   

@@ -1,7 +1,7 @@
-public class CapaFisica{
+public class PhysicalLayer{
   Frame frame;
   
-  public CapaFisica(){
+  public PhysicalLayer(){
     frame = new Frame();
   }
    
@@ -9,7 +9,7 @@ public class CapaFisica{
     return frame;
   }
   
-  public void to_physical_layer(Frame s){
-    frame = s;
+  public void to_physical_layer(Frame f){
+    frame = f;
   }
 }

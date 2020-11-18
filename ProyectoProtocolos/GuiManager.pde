@@ -16,8 +16,9 @@ public class GuiManager{
   float pErrorChecksum, pErrorPacket;
   Boolean inMenu;
   ArrayList<TextBox> settings;
+  int indexMachine = 0;
   
-  ProtocoloManager pm;
+  ProtocolManager pm;
   
   public GuiManager(float w, float h){
     this._width = w;
@@ -67,7 +68,15 @@ public class GuiManager{
         if(isType(p, GuiComponents.Frame)){
           if(((GuiFrame) p).arrived == true){
             // Notificar al ProcoloManager que el paquete ya llego
-            pm.arrived(0);
+            print(indexMachine);
+            if(indexMachine == 0){
+              pm.arrived(0);
+              indexMachine = 1;
+            }
+            else{
+              pm.arrived(1);
+              indexMachine = 0;
+            }
             gui.displayFrame(0);
             ((GuiFrame) p).arrived = false;
           }
@@ -106,6 +115,7 @@ public class GuiManager{
       if(!isType(p, GuiComponents.Frame))
         showing.add(p);
     }
+    
   }
   
   public void showComponent(GuiComponents comp, int index){
@@ -143,26 +153,28 @@ public class GuiManager{
     }
   }
   
-  public void setProtocol(int index){
+  public void setProtocol(int index, int checksum, int timeout){
     switch(index){
       case 1:{
-        pm = new ProtocoloManager(new ProtocoloUtopia()); //<>//
+        pm = new ProtocolManager(new ProtocolUtopia()); //<>//
         showComponent(GuiComponents.Frame,0);
         break;
       }case 2:{
-        pm = new ProtocoloManager(new ProtocoloStopAndWait());
+        pm = new ProtocolManager(new ProtocolStopAndWait());
         showComponent(GuiComponents.Frame,0);
         break;
-      }/*case 3:{
-      
-      }case 4:{
+      }case 3:{
+        pm = new ProtocolManager(new ProtocolPar(checksum, timeout));
+        showComponent(GuiComponents.Frame,0);
+        break;
+      }/*case 4:{
       
       }case 5:{
       
       }case 6:{
       
       }*/default:{
-        pm = new ProtocoloManager(new ProtocoloUtopia());
+        pm = new ProtocolManager(new ProtocolUtopia());
         showComponent(GuiComponents.Frame,0);
       }
     }
@@ -218,7 +230,7 @@ public class GuiManager{
       frameRate(velocidad);
       
       this.start();
-      setProtocol(tipoProtocolo);
+      setProtocol(tipoProtocolo, checksum, timeout);
       
     }else{
     
