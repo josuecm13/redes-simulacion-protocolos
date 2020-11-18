@@ -3,7 +3,7 @@ public class ProtocoloStopAndWait extends Protocolo implements IUnidireccional{
   public ProtocoloStopAndWait(){
     capaRed = new CapaRed();
     capaFisica = new CapaFisica();
-    receiver();
+    sender(false);
   }
   
   /*
@@ -31,15 +31,15 @@ public class ProtocoloStopAndWait extends Protocolo implements IUnidireccional{
     Frame f = new Frame();
     buffer = capaRed.from_network_layer();
     f.setInfo(buffer);
-    print(f.getInfo().getData());
     capaFisica.to_physical_layer(f);
   }
   
   public void receiver(){
     Frame r = new Frame();
-    delay(4000);
     r = capaFisica.from_physical_layer();
-    //print(r.getInfo().getData());
+    print(r.getInfo().getData());
     capaRed.to_network_layer(r.getInfo());
+    delay(4000);
+    sender(false);
   }
 }

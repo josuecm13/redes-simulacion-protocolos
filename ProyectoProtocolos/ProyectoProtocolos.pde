@@ -16,20 +16,21 @@ void setup(){
   
   delay = 0;
   d = -1;
-  gui = new GuiManager(width, height, comps);
+  gui = new GuiManager(width, height, comps);  
   frameRate(gui.refreshRate);
-  gui.setProtocol(2); //<>// //<>//
+  gui.menuMode();
+  //gui.setProtocol(1); //<>//
 }
 
 void draw(){
   clear();
   background(240);
   gui.display();
-  
+  /*
   if(delay  == 0){
     gui.start();
     //d = 40;
-  }/*
+  }*//*
   if(d  == 0){
     print("Show Frame - ");
     gui.showComponent(GuiComponents.Frame,0);
@@ -41,6 +42,22 @@ void draw(){
   */
   
   delay--; d --;
+}
+
+void mousePressed() {
+  for (TextBox t : gui.settings) {
+    if(t.PRESSED(mouseX, mouseY)){
+      gui.submitChanges();
+    }
+  }
+}
+
+void keyPressed() {
+   for (TextBox t : gui.settings) {
+      if (t.KEYPRESSED(key, keyCode)) {
+        
+      }
+   }
 }
 
 

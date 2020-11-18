@@ -14,23 +14,30 @@ public class GuiManager{
   ArrayList<Placeable> showing;
   int windowSize, refreshRate;
   float pErrorChecksum, pErrorPacket;
+  Boolean inMenu;
+  ArrayList<TextBox> settings;
+  
   ProtocoloManager pm;
   
   public GuiManager(float w, float h){
     this._width = w;
     this._height = h;
     this.refreshRate = 30;
+    this.inMenu =true;
     allComponents = new ArrayList();
     showing = new ArrayList();
+    settings = new ArrayList();
     initComponents();
   }
   
   public GuiManager(float w, float h, ArrayList<GuiComponents> components){
-    this._width = w; //<>// //<>//
+    this._width = w; //<>//
     this._height = h;
     this.refreshRate = 30;
+    this.inMenu =true;
     allComponents = new ArrayList();
     showing = new ArrayList();
+    settings = new ArrayList();
     initComponents(components);
   }
   
@@ -51,17 +58,23 @@ public class GuiManager{
   }
   
   public void display(){
-    for(Placeable p: showing){
-      if(isType(p, GuiComponents.Frame)){
-        if(((GuiFrame) p).arrived == true){
-          // Notificar al ProcoloManager que el paquete ya llego
-          pm.arrived(0); //<>// //<>//
-          gui.displayFrame(0);
-          ((GuiFrame) p).arrived = false;
-        }
+    if(inMenu){
+      for(TextBox t: settings){
+        t.DRAW();
       }
-      p.display();
-    }
+    }else{
+      for(Placeable p: showing){
+        if(isType(p, GuiComponents.Frame)){
+          if(((GuiFrame) p).arrived == true){
+            // Notificar al ProcoloManager que el paquete ya llego
+            pm.arrived(0);
+            gui.displayFrame(0);
+            ((GuiFrame) p).arrived = false;
+          }
+        }
+        p.display();
+      }
+    } //<>//
   }
   
   public void setDimensions(float w, float h){
@@ -133,7 +146,7 @@ public class GuiManager{
   public void setProtocol(int index){
     switch(index){
       case 1:{
-        pm = new ProtocoloManager(new ProtocoloUtopia()); //<>// //<>//
+        pm = new ProtocoloManager(new ProtocoloUtopia()); //<>//
         showComponent(GuiComponents.Frame,0);
         break;
       }case 2:{
@@ -154,6 +167,63 @@ public class GuiManager{
       }
     }
     // 
+  }
+  
+  
+  public void menuMode(){
+    this.inMenu = true;
+    
+    if(settings.isEmpty()){
+      /* 
+        Tipo de protocolo 
+        Checksum Error % 
+        TimeOut %
+        Velocidad: 12 - 70 fps
+      */
+      TextBox protype = new TextBox(_width/4, _height/4, 150, 30, "Protocolo {1...6}");
+      TextBox checksumError = new TextBox(_width/4 + 250, _height/4, 150, 30, "Checksum Error % (0-100)");
+      TextBox timeoutError = new TextBox(_width/4 + 500, _height/4, 150, 30, "Timeout Error % (0-100)");
+      TextBox velocidad = new TextBox(_width/4, _height/4 + 70, 150, 30, "Velocidad {12...200}");
+      
+      TextBox buttonConfirm = new TextBox(_width/2 - 10,  _height/2, 250, 40);
+      buttonConfirm.Text = "\tEmpezar simulación";
+      buttonConfirm.TEXTSIZE = 24;
+      settings.add(protype);
+      settings.add(checksumError);
+      settings.add(timeoutError);
+      settings.add(velocidad);
+      settings.add(buttonConfirm);
+    }
+    
+    
+  }
+  
+  public Boolean submitChanges(){
+    // Toma el Array settings
+    // Convierte el texto en variables
+    if(inMenu){
+      this.inMenu = false;
+      /* 
+        Tipo de protocolo 
+        Checksum Error % 
+        TimeOut %
+        Velocidad: 12 - 70 fps
+      */
+      
+      int tipoProtocolo = Integer.parseInt(settings.get(0).Text);
+      int checksum = Integer.parseInt(settings.get(1).Text);
+      int timeout = Integer.parseInt(settings.get(2).Text);
+      int velocidad = Integer.parseInt(settings.get(3).Text);
+      
+      frameRate(velocidad);
+      
+      this.start();
+      setProtocol(tipoProtocolo);
+      
+    }else{
+    
+    }
+    return true;
   }
   
   
@@ -210,6 +280,11 @@ public class GuiManager{
     frame.setParent(this);
     
     this.allComponents.add(0, guiP);
+  }
+  
+  
+  private void setSettings(){
+    //Setea la configuración en 
   }
   
   

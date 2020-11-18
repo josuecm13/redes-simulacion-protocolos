@@ -12,6 +12,7 @@ public class GuiFrame extends Placeable implements Movable{
   GuiManager manager;
   boolean arrived = false;
   
+  
   public GuiFrame(float x, float y, int _width){
     this._width = _width;
     this._height = _width * heightProportion;
@@ -43,7 +44,7 @@ public class GuiFrame extends Placeable implements Movable{
   }
   
   @Override
-  public void display(){ //<>// //<>//
+  public void display(){ //<>//
     if(displaying){
       super.display();
       if(state)
