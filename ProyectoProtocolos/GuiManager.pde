@@ -14,7 +14,7 @@ public class GuiManager{
   ArrayList<Placeable> showing;
   int windowSize, refreshRate;
   float pErrorChecksum, pErrorPacket;
-  Boolean inMenu, isBidirectinal;
+  Boolean inMenu, isBidirectional;
   ArrayList<TextBox> settings;
   int indexMachine = 0;
   
@@ -25,7 +25,7 @@ public class GuiManager{
     this._height = h;
     this.refreshRate = 30;
     this.inMenu =true;
-    this.isBidirectinal = true;
+    this.isBidirectional = false;
     allComponents = new ArrayList();
     showing = new ArrayList();
     settings = new ArrayList();
@@ -37,7 +37,7 @@ public class GuiManager{
     this._height = h;
     this.refreshRate = 30;
     this.inMenu =true;
-    this.isBidirectinal = true;
+    this.isBidirectional = false;
     allComponents = new ArrayList();
     showing = new ArrayList();
     settings = new ArrayList();
@@ -73,11 +73,39 @@ public class GuiManager{
       for(Placeable p: showing){
         if(isType(p, GuiComponents.Frame)){
           if(((GuiFrame) p).arrived == true){
-            // Notificar al ProcoloManager que el paquete ya llego
-            pm.arrived(indexMachine);
-            indexMachine = (indexMachine+1)%2;
-            gui.displayFrame(indexMachine);
-            ((GuiFrame) p).arrived = false; //<>//
+            println("ESTADO ACTUAL:");
+            if(isBidirectional){
+              // Notificar al ProcolManager que el paquete ya llego
+              pm.arrived(indexMachine);
+              /*GuiFrame f; //<>//
+              if(indexMachine == 0){
+                f = (GuiFrame) findWhereWidthLessThan(GuiComponents.Frame,(int) _width/2);
+              }else{
+                f = (GuiFrame) findWhereWidthLessThan(GuiComponents.Frame,(int) _width);
+              }
+              f.displaying = false;*/
+              ((GuiFrame) p).displaying=false;
+              ((GuiFrame) p).play(false);
+              indexMachine = (indexMachine+1)%2;
+              print(indexMachine);
+              gui.displayFrame(indexMachine);
+            }else{
+              pm.arrived(0);
+              gui.displayFrame(0);
+            }
+            /*
+            String protocol;
+            String kindError;
+            Frame frame;
+            */
+            
+            ((GuiFrame) p).arrived = false;/*
+            println("Protocolo: ", pm.registryError.getProtocol());
+            println("Tipo de Error: ", pm.registryError.getKindError());
+            println("------------FRAME------------");
+            println("Paquete:", pm.registryError.getFrame().getInfo().getData());
+            println("FrameInfo: Secuencia(", pm.registryError.getFrame().getSeq() ,").. Acknowledge(", pm.registryError.getFrame().getAck() ,")");*/
+            //pm.registryError
           }
         }
         p.display();
@@ -118,13 +146,14 @@ public class GuiManager{
   }
   
   public void showComponent(GuiComponents comp, int index){
-    for (Placeable c: allComponents){
+    for (Placeable c: allComponents){ //<>//
       if(isType(c, comp)){
         if( index != 0 ){
-          index --;  
+          index --;   //<>//
         }else{
           ((GuiFrame) c).play(true);
           showing.add(c);
+          break;
         }
       }
     }
@@ -149,7 +178,7 @@ public class GuiManager{
           ((GuiFrame) c).play(true);
         }
       }
-    } //<>//
+    }
   }
   
   public void setProtocol(int index, int checksum, int timeout){
@@ -167,8 +196,12 @@ public class GuiManager{
         showComponent(GuiComponents.Frame,0);
         break;
       }case 4:{
+        this.isBidirectional = true;
         pm = new ProtocolManager(new ProtocolSlidingWindow(checksum, timeout));
         showComponent(GuiComponents.Frame,0);
+        showComponent(GuiComponents.Frame,1);
+        GuiFrame f = (GuiFrame) findWhereWidthLessThan(GuiComponents.Frame,(int) _width);
+        f.displaying = false;
         break;
       }/*case 5:{
       
@@ -288,7 +321,7 @@ public class GuiManager{
     if(offset < -1){
       frame = (GuiFrame)findWhereWidthLessThan(GuiComponents.Frame,(int) _width/2);
     }else{
-      frame = (GuiFrame)findWhereWidthLessThan(GuiComponents.Frame,(int) _width); //<>//
+      frame = (GuiFrame)findWhereWidthLessThan(GuiComponents.Frame,(int) _width);
     }
     
     frame.setPath(path);
