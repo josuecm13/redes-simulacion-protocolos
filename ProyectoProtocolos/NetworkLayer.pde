@@ -8,7 +8,7 @@ public class NetworkLayer{
   public Package from_network_layer(){
     String data = "";
     
-    for (int i = 0; i < 1024; i = i+1) {
+    for (int i = 0; i < 10; i = i+1) {
       int RandomNumber = int(random(2));
       data = data +str (RandomNumber);
     } 

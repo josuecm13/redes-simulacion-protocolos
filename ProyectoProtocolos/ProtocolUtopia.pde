@@ -1,7 +1,7 @@
 public class ProtocolUtopia extends Protocol implements IUnidireccional{
  
   public ProtocolUtopia(){
-    networkLayerA = new NetworkLayer(); //<>// //<>//
+    networkLayerA = new NetworkLayer(); //<>// //<>// //<>//
     physicalLayerA = new PhysicalLayer();
     sender(false);
   }
@@ -15,7 +15,7 @@ public class ProtocolUtopia extends Protocol implements IUnidireccional{
   }
   
   public void receiver(){
-    Frame r = new Frame(); //<>// //<>//
+    Frame r = new Frame(); //<>// //<>// //<>//
     r = physicalLayerA.from_physical_layer();
     networkLayerA.to_network_layer(r.getInfo());
   }

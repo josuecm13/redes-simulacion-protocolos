@@ -3,7 +3,7 @@ public abstract class Protocol{
   PhysicalLayer physicalLayerA;
   
   NetworkLayer networkLayerB;
-  PhysicalLayer physicalLayerB;
+  PhysicalLayerB physicalLayerB;
   
   int checksum;
   int timeout;

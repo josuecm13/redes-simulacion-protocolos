@@ -1,6 +1,4 @@
 public class ProtocolSlidingWindow extends Protocol implements IBidireccional{
- 
-  //ArrayList<Package> packs = new ArrayList<Package>();
   
   public ProtocolSlidingWindow(int checksum, int timeout){
     networkLayerA = new NetworkLayer();
