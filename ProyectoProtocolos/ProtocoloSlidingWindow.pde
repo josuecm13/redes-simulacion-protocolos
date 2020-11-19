@@ -3,46 +3,62 @@ public class ProtocolSlidingWindow extends Protocol implements IBidireccional{
   //ArrayList<Package> packs = new ArrayList<Package>();
   
   public ProtocolSlidingWindow(int checksum, int timeout){
-    networkLayer = new NetworkLayer();
-    physicalLayer = new PhysicalLayer();
+    networkLayerA = new NetworkLayer();
+    physicalLayerA = new PhysicalLayer();
     this.checksum = checksum;
     this.timeout = timeout;
     next_frame_to_send = 0;
     frame_expected = 0;
     buffer = new Package();
-    sender(1, false);
+    sender(0, false);
   }
   
   public void sender(int index, Boolean error){
-    if(index == 1){
+    if(index == 0){ // A envio B
       Frame f = new Frame();
-      buffer = networkLayer.from_network_layer();
+      buffer = networkLayerA.from_network_layer();
       f.setInfo(buffer);
       f.setSeq(next_frame_to_send);
       f.setAck(1-frame_expected);
-      physicalLayer.to_physical_layer(f);
+      physicalLayerA.to_physical_layer(f);
     }
-    else{
-      
+    else{ // B envio A
+      Frame f = new Frame();
+      buffer = networkLayerA.from_network_layer();
+      f.setInfo(buffer);
+      f.setSeq(next_frame_to_send);
+      f.setAck(1-frame_expected);
+      physicalLayerA.to_physical_layer(f);
     }
     
   }
   
-  public void receiver(int index){
-    if(index == 0){
+  public void receiver(int index){ 
+    if(index == 0){ // B
       Frame r = new Frame();
-      r = physicalLayer.from_physical_layer();
+      r = physicalLayerA.from_physical_layer();
       if(r.getSeq() == frame_expected){
-        networkLayer.to_network_layer(r.getInfo());
+        networkLayerA.to_network_layer(r.getInfo());
         frame_expected = inc(frame_expected);
       }
       if(r.getAck() == next_frame_to_send){
-        buffer = networkLayer.from_network_layer();
+        buffer = networkLayerA.from_network_layer();
         next_frame_to_send = inc(next_frame_to_send);
       }
+      sender(1, false);
     }
     else{
-      
+      Frame r = new Frame();
+      r = physicalLayerA.from_physical_layer();
+      if(r.getSeq() == frame_expected){
+        networkLayerA.to_network_layer(r.getInfo());
+        frame_expected = inc(frame_expected);
+      }
+      if(r.getAck() == next_frame_to_send){
+        buffer = networkLayerA.from_network_layer();
+        next_frame_to_send = inc(next_frame_to_send);
+      }
+      sender(0, false);
     }
   }
   

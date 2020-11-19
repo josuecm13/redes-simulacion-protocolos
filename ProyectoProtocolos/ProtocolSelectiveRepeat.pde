@@ -2,8 +2,8 @@ public class ProtocolSelectiveRepeat extends Protocol implements IBidireccional{
  
   DtoManager registroError = new DtoManager();
   public ProtocolSelectiveRepeat(int checksum, int timeout){
-    networkLayer = new NetworkLayer();
-    physicalLayer = new PhysicalLayer();
+    networkLayerA = new NetworkLayer();
+    physicalLayerA = new PhysicalLayer();
     this.checksum = checksum;
     this.timeout = timeout;
     sender(0, false);
@@ -12,14 +12,14 @@ public class ProtocolSelectiveRepeat extends Protocol implements IBidireccional{
   public void sender(int index, Boolean error){
     Package buffer = new Package();
     Frame f = new Frame();
-    buffer = networkLayer.from_network_layer();
+    buffer = networkLayerA.from_network_layer();
     f.setInfo(buffer);
-    physicalLayer.to_physical_layer(f);
+    physicalLayerA.to_physical_layer(f);
   }
   
   public void receiver(int index){
     Frame r = new Frame();
-    r = physicalLayer.from_physical_layer();
+    r = physicalLayerA.from_physical_layer();
     
     int tiempoDelay = (int) random(1000, 3000);
     
@@ -30,7 +30,7 @@ public class ProtocolSelectiveRepeat extends Protocol implements IBidireccional{
     
     if(!checksumOk){
       if(!timeoutOk){
-        networkLayer.to_network_layer(r.getInfo());
+        networkLayerA.to_network_layer(r.getInfo());
         delay(tiempoDelay);
         sender(1, false);
       }
@@ -56,6 +56,16 @@ public class ProtocolSelectiveRepeat extends Protocol implements IBidireccional{
       
       delay(tiempoDelay);
       sender(1, true);
+    }
+  }
+  
+  public int inc(int value){
+    // MAX_SEQ que entre por parametro desde interfaz
+    if(value < 3){
+      return value+1;
+    }
+    else{
+      return 0;
     }
   }
 }

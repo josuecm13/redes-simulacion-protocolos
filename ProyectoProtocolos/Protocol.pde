@@ -1,6 +1,10 @@
 public abstract class Protocol{
-  NetworkLayer networkLayer;
-  PhysicalLayer physicalLayer;
+  NetworkLayer networkLayerA;
+  PhysicalLayer physicalLayerA;
+  
+  NetworkLayer networkLayerB;
+  PhysicalLayer physicalLayerB;
+  
   int checksum;
   int timeout;
   

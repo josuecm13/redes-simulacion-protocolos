@@ -21,8 +21,7 @@ public class ProtocolManager{
   }
   
   private Boolean isBidirectional(Protocol protocol){
-    return false;
-    //return (protocol instanceof SlidingWindow) || (protocol instanceof GoBackN) || (protocol instanceof SelectiveRepeat);
+    return (protocol instanceof ProtocolSlidingWindow); // || (protocol instanceof GoBackN) || (protocol instanceof SelectiveRepeat);
   }
   
   

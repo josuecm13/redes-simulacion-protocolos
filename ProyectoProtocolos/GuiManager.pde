@@ -69,15 +69,9 @@ public class GuiManager{
           if(((GuiFrame) p).arrived == true){
             // Notificar al ProcoloManager que el paquete ya llego
             print(indexMachine);
-            if(indexMachine == 0){
-              pm.arrived(0);
-              indexMachine = 1;
-            }
-            else{
-              pm.arrived(1);
-              indexMachine = 0;
-            }
-            gui.displayFrame(0);
+            pm.arrived(indexMachine);
+            indexMachine = (indexMachine+1)%2;
+            gui.displayFrame(indexMachine);
             ((GuiFrame) p).arrived = false;
           }
         }
@@ -167,9 +161,11 @@ public class GuiManager{
         pm = new ProtocolManager(new ProtocolPar(checksum, timeout));
         showComponent(GuiComponents.Frame,0);
         break;
-      }/*case 4:{
-      
-      }case 5:{
+      }case 4:{
+        pm = new ProtocolManager(new ProtocolSlidingWindow(checksum, timeout));
+        showComponent(GuiComponents.Frame,0);
+        break;
+      }/*case 5:{
       
       }case 6:{
       
@@ -255,6 +251,7 @@ public class GuiManager{
     connectSimple(rB, mB);
     connect(rA, rB);
     connectSimple(mA, rA);
+    connect(rB, rA);
     /* Extras
     if (is Bidirectional){
       connect(rB, rA);
@@ -285,7 +282,7 @@ public class GuiManager{
     if(offset < -1){
       frame = (GuiFrame)findWhereWidthLessThan(GuiComponents.Frame,(int) _width/2);
     }else{
-      frame = (GuiFrame)findWhereWidthLessThan(GuiComponents.Frame,(int) _width);
+      frame = (GuiFrame)findWhereWidthLessThan(GuiComponents.Frame,(int) _width); //<>//
     }
     
     frame.setPath(path);
@@ -306,7 +303,7 @@ public class GuiManager{
       if( p.pos.x > w ){
         continue;
       }
-      if(isType(p,comp) && p.pos.x > w - _width/2){
+      if(isType(p,comp) && p.pos.x > w - _width/2){ //<>//
         return p;      
       }
     }/*
