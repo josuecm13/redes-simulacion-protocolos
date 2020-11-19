@@ -14,7 +14,7 @@ public class GuiManager{
   ArrayList<Placeable> showing;
   int windowSize, refreshRate;
   float pErrorChecksum, pErrorPacket;
-  Boolean inMenu;
+  Boolean inMenu, isBidirectinal;
   ArrayList<TextBox> settings;
   
   ProtocoloManager pm;
@@ -24,6 +24,7 @@ public class GuiManager{
     this._height = h;
     this.refreshRate = 30;
     this.inMenu =true;
+    this.isBidirectinal = true;
     allComponents = new ArrayList();
     showing = new ArrayList();
     settings = new ArrayList();
@@ -35,6 +36,7 @@ public class GuiManager{
     this._height = h;
     this.refreshRate = 30;
     this.inMenu =true;
+    this.isBidirectinal = true;
     allComponents = new ArrayList();
     showing = new ArrayList();
     settings = new ArrayList();
@@ -63,12 +65,13 @@ public class GuiManager{
         t.DRAW();
       }
     }else{
+      int appearance = 0;
       for(Placeable p: showing){
         if(isType(p, GuiComponents.Frame)){
           if(((GuiFrame) p).arrived == true){
             // Notificar al ProcoloManager que el paquete ya llego
-            pm.arrived(0);
-            gui.displayFrame(0);
+            pm.arrived(appearance);
+            gui.displayFrame(appearance++);
             ((GuiFrame) p).arrived = false;
           }
         }
@@ -156,10 +159,13 @@ public class GuiManager{
       }/*case 3:{
       
       }case 4:{
+        this.isBidirectinal = true;
       
       }case 5:{
+        this.isBidirectinal = true;
       
       }case 6:{
+        this.isBidirectinal = true;
       
       }*/default:{
         pm = new ProtocoloManager(new ProtocoloUtopia());

@@ -18,8 +18,9 @@ void setup(){
   d = -1;
   gui = new GuiManager(width, height, comps);  
   frameRate(gui.refreshRate);
-  gui.menuMode();
-  //gui.setProtocol(1); //<>//
+  gui.menuMode(); //<>//
+  //gui.start();
+  //gui.setProtocol(1);
 }
 
 void draw(){
