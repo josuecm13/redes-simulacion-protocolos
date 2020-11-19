@@ -16,8 +16,9 @@ public class GuiManager{
   float pErrorChecksum, pErrorPacket;
   Boolean inMenu, isBidirectinal;
   ArrayList<TextBox> settings;
+  int indexMachine = 0;
   
-  ProtocoloManager pm;
+  ProtocolManager pm;
   
   public GuiManager(float w, float h){
     this._width = w;
@@ -31,7 +32,7 @@ public class GuiManager{
     initComponents();
   }
   
-  public GuiManager(float w, float h, ArrayList<GuiComponents> components){
+  public GuiManager(float w, float h, ArrayList<GuiComponents> components){ //<>//
     this._width = w; //<>//
     this._height = h;
     this.refreshRate = 30;
@@ -44,8 +45,12 @@ public class GuiManager{
   }
   
   public void initComponents(ArrayList<GuiComponents> components){
+    int cont = -1;
     for(GuiComponents c: components){
-      allComponents.add(createComponent(c));
+      if(c == GuiComponents.Frame){
+        cont++;
+      }
+      allComponents.add(createComponent(c, cont));
     }
     makeConnections();
   }
@@ -65,14 +70,14 @@ public class GuiManager{
         t.DRAW();
       }
     }else{
-      int appearance = 0;
       for(Placeable p: showing){
         if(isType(p, GuiComponents.Frame)){
           if(((GuiFrame) p).arrived == true){
             // Notificar al ProcoloManager que el paquete ya llego
-            pm.arrived(appearance);
-            gui.displayFrame(appearance++);
-            ((GuiFrame) p).arrived = false;
+            pm.arrived(indexMachine);
+            indexMachine = (indexMachine+1)%2;
+            gui.displayFrame(indexMachine);
+            ((GuiFrame) p).arrived = false; //<>//
           }
         }
         p.display();
@@ -109,6 +114,7 @@ public class GuiManager{
       if(!isType(p, GuiComponents.Frame))
         showing.add(p);
     }
+    
   }
   
   public void showComponent(GuiComponents comp, int index){
@@ -143,32 +149,34 @@ public class GuiManager{
           ((GuiFrame) c).play(true);
         }
       }
-    }
+    } //<>//
   }
   
-  public void setProtocol(int index){
+  public void setProtocol(int index, int checksum, int timeout){
     switch(index){
       case 1:{
-        pm = new ProtocoloManager(new ProtocoloUtopia()); //<>//
+        pm = new ProtocolManager(new ProtocolUtopia()); //<>//
         showComponent(GuiComponents.Frame,0);
         break;
       }case 2:{
-        pm = new ProtocoloManager(new ProtocoloStopAndWait());
+        pm = new ProtocolManager(new ProtocolStopAndWait());
         showComponent(GuiComponents.Frame,0);
         break;
-      }/*case 3:{
-      
+      }case 3:{
+        pm = new ProtocolManager(new ProtocolPar(checksum, timeout));
+        showComponent(GuiComponents.Frame,0);
+        break;
       }case 4:{
-        this.isBidirectinal = true;
-      
-      }case 5:{
-        this.isBidirectinal = true;
+        pm = new ProtocolManager(new ProtocolSlidingWindow(checksum, timeout));
+        showComponent(GuiComponents.Frame,0);
+        break;
+      }/*case 5:{
       
       }case 6:{
         this.isBidirectinal = true;
       
       }*/default:{
-        pm = new ProtocoloManager(new ProtocoloUtopia());
+        pm = new ProtocolManager(new ProtocolUtopia());
         showComponent(GuiComponents.Frame,0);
       }
     }
@@ -224,7 +232,7 @@ public class GuiManager{
       frameRate(velocidad);
       
       this.start();
-      setProtocol(tipoProtocolo);
+      setProtocol(tipoProtocolo, checksum, timeout);
       
     }else{
     
@@ -249,6 +257,7 @@ public class GuiManager{
     connectSimple(rB, mB);
     connect(rA, rB);
     connectSimple(mA, rA);
+    connect(rB, rA);
     /* Extras
     if (is Bidirectional){
       connect(rB, rA);
@@ -279,7 +288,7 @@ public class GuiManager{
     if(offset < -1){
       frame = (GuiFrame)findWhereWidthLessThan(GuiComponents.Frame,(int) _width/2);
     }else{
-      frame = (GuiFrame)findWhereWidthLessThan(GuiComponents.Frame,(int) _width);
+      frame = (GuiFrame)findWhereWidthLessThan(GuiComponents.Frame,(int) _width); //<>//
     }
     
     frame.setPath(path);
@@ -300,7 +309,7 @@ public class GuiManager{
       if( p.pos.x > w ){
         continue;
       }
-      if(isType(p,comp) && p.pos.x > w - _width/2){
+      if(isType(p,comp) && p.pos.x > w - _width/2){ //<>//
         return p;      
       }
     }/*
@@ -330,7 +339,7 @@ public class GuiManager{
     return false;
   }
   
-  private Placeable createComponent(GuiComponents type){
+  private Placeable createComponent(GuiComponents type, int cont){
     if(type == GuiComponents.MachineA){
       return new GuiMachine((_width/2 - 300),(_height/2 - 150), MachineType.A); 
     }if(type == GuiComponents.MachineB){
@@ -340,7 +349,11 @@ public class GuiManager{
     }else if(type == GuiComponents.RouterB){
       return new GuiRouter((_width/2 + 150),(_height/2 - 50));
     }else if(type == GuiComponents.Frame){
-      return new GuiFrame((_width/2 - 150),(_height/2 - 150));
+      if(cont == 0){
+        return new GuiFrame((_width/2 - 150),(_height/2 - 150));
+      }else{
+        return new GuiFrame((_width/2 + 150),(_height/2 + 150));
+      }
     }else if(type == GuiComponents.Window){
       // 
     }  

@@ -1,4 +1,5 @@
 public interface IBidireccional{
-  public void sender(int indice, Boolean error);
-  public void receiver(int indice);
+  public void sender(int index, Boolean error);
+  public void receiver(int index);
+  public int inc(int value);
 }

@@ -79,7 +79,7 @@ public class Updater{
         xAxis = false;
         
         if(isLeftToRight)
-          this.manager.hide(0); //<>// //<>//
+          this.manager.hide(0); //<>// //<>// //<>//
         else
           this.manager.hide(1);
         frameSent();

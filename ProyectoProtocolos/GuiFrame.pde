@@ -44,7 +44,7 @@ public class GuiFrame extends Placeable implements Movable{
   }
   
   @Override
-  public void display(){ //<>//
+  public void display(){ //<>// //<>//
     if(displaying){
       super.display();
       if(state)

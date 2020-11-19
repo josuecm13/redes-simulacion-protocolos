@@ -13,11 +13,12 @@ void setup(){
   comps.add( GuiComponents.RouterB );
   comps.add( GuiComponents.MachineB );
   comps.add( GuiComponents.Frame );
+  comps.add( GuiComponents.Frame );
   
   delay = 0;
   d = -1;
   gui = new GuiManager(width, height, comps);  
-  frameRate(gui.refreshRate);
+  frameRate(gui.refreshRate); //<>//
   gui.menuMode(); //<>//
   //gui.start();
   //gui.setProtocol(1);
