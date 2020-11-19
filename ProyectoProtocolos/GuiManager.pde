@@ -32,7 +32,7 @@ public class GuiManager{
     initComponents();
   }
   
-  public GuiManager(float w, float h, ArrayList<GuiComponents> components){ //<>//
+  public GuiManager(float w, float h, ArrayList<GuiComponents> components){ //<>// //<>//
     this._width = w; //<>//
     this._height = h;
     this.refreshRate = 30;
@@ -73,7 +73,7 @@ public class GuiManager{
       for(Placeable p: showing){
         if(isType(p, GuiComponents.Frame)){
           if(((GuiFrame) p).arrived == true){
-            println("ESTADO ACTUAL:");
+            println("==============ESTADO ACTUAL===============");
             if(isBidirectional){
               // Notificar al ProcolManager que el paquete ya llego
               pm.arrived(indexMachine);
@@ -99,12 +99,12 @@ public class GuiManager{
             Frame frame;
             */
             
-            ((GuiFrame) p).arrived = false;/*
+            ((GuiFrame) p).arrived = false;
             println("Protocolo: ", pm.registryError.getProtocol());
             println("Tipo de Error: ", pm.registryError.getKindError());
             println("------------FRAME------------");
             println("Paquete:", pm.registryError.getFrame().getInfo().getData());
-            println("FrameInfo: Secuencia(", pm.registryError.getFrame().getSeq() ,").. Acknowledge(", pm.registryError.getFrame().getAck() ,")");*/
+            println("FrameInfo: Secuencia(", pm.registryError.getFrame().getSeq() ,").. Acknowledge(", pm.registryError.getFrame().getAck() ,")\n\n\n\n");
             //pm.registryError
           }
         }
@@ -146,10 +146,10 @@ public class GuiManager{
   }
   
   public void showComponent(GuiComponents comp, int index){
-    for (Placeable c: allComponents){ //<>//
+    for (Placeable c: allComponents){ //<>// //<>//
       if(isType(c, comp)){
         if( index != 0 ){
-          index --;   //<>//
+          index --;   //<>// //<>//
         }else{
           ((GuiFrame) c).play(true);
           showing.add(c);
@@ -169,7 +169,7 @@ public class GuiManager{
   }
   
   public void displayFrame(int index){
-    print("Show Frame - ");
+    //print("Show Frame - ");
     for (Placeable c: showing){
       if(isType(c, GuiComponents.Frame)){
         if( index != 0 ){

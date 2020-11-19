@@ -79,7 +79,7 @@ public class Updater{
         xAxis = false;
         
         if(isLeftToRight)
-          this.manager.hide(0); //<>// //<>// //<>//
+          this.manager.hide(0); //<>// //<>// //<>// //<>//
         else
           this.manager.hide(1);
         frameSent();
@@ -89,7 +89,7 @@ public class Updater{
   
   public void frameSent(){
     this.manager.arrived = true;
-    print("Entregó Frame\n");
+    //print("Entregó Frame\n");
   }
   
   public void setStepRate(float stepRate){

@@ -11,11 +11,11 @@ public class ProtocolGoBackN extends Protocol implements IBidireccional{
   
   public void sender(int index, Boolean error){
     Package buffer = new Package();
-    i < windowSIze
+    //i < windowSIze
     Frame f = new Frame();
     buffer = networkLayerA.from_network_layer();
     f.setInfo(buffer);
-    arreglo.add(f)
+    //arreglo.add(f)
     physicalLayerA.to_physical_layer(f);
   }
   
