@@ -186,7 +186,7 @@ public class GuiManager{
     }
   }
   
-  public void setProtocol(int index, int checksum, int timeout){
+  public void setProtocol(int index, int checksum, int timeout, int aWindow, int bWindow){
     switch(index){
       case 1:{
         pm = new ProtocolManager(new ProtocolUtopia()); //<>//
@@ -257,9 +257,9 @@ public class GuiManager{
       settings.add(checksumError);
       settings.add(timeoutError);
       settings.add(velocidad);
-      settings.add(buttonConfirm);
       settings.add(aWindowSize);
       settings.add(bWindowSize);
+      settings.add(buttonConfirm);
     }
     
     
@@ -281,11 +281,13 @@ public class GuiManager{
       int checksum = Integer.parseInt(settings.get(1).Text);
       int timeout = Integer.parseInt(settings.get(2).Text);
       int velocidad = Integer.parseInt(settings.get(3).Text);
+      int aWindowSize = Integer.parseInt(settings.get(4).Text);
+      int bWindowSize = Integer.parseInt(settings.get(5).Text);
       
       frameRate(velocidad);
       
       this.start();
-      setProtocol(tipoProtocolo, checksum, timeout);
+      setProtocol(tipoProtocolo, checksum, timeout, aWindowSize, bWindowSize);
       
     }else{
     
