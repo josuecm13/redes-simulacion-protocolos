@@ -1,10 +1,10 @@
 public class PhysicalLayerB{
   ArrayList<Frame> framePacks;
-  int windowSize;
+  // int windowSize;
   
-  public PhysicalLayerB(int windowSize){
+  public PhysicalLayerB(){
     framePacks = new ArrayList<Frame>();
-    this.windowSize = windowSize;
+    // this.windowSize = windowSize;
   }
    
   public ArrayList<Frame> from_physical_layer(){

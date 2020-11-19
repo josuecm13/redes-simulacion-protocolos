@@ -12,23 +12,24 @@ public class ProtocolSlidingWindow extends Protocol implements IBidireccional{
   }
   
   public void sender(int index, Boolean error){
-    if(index == 0){ // A envio B
-      Frame f = new Frame();
-      buffer = networkLayerA.from_network_layer();
-      f.setInfo(buffer);
-      f.setSeq(next_frame_to_send);
-      f.setAck(1-frame_expected);
-      physicalLayerA.to_physical_layer(f);
+    if(!error){
+      if(index == 0){ // A envio B
+        Frame f = new Frame();
+        buffer = networkLayerA.from_network_layer();
+        f.setInfo(buffer);
+        f.setSeq(next_frame_to_send);
+        f.setAck(1-frame_expected);
+        physicalLayerA.to_physical_layer(f);
+      }
+      else{ // B envio A
+        Frame f = new Frame();
+        buffer = networkLayerA.from_network_layer();
+        f.setInfo(buffer);
+        f.setSeq(next_frame_to_send);
+        f.setAck(1-frame_expected);
+        physicalLayerA.to_physical_layer(f);
+      }
     }
-    else{ // B envio A
-      Frame f = new Frame();
-      buffer = networkLayerA.from_network_layer();
-      f.setInfo(buffer);
-      f.setSeq(next_frame_to_send);
-      f.setAck(1-frame_expected);
-      physicalLayerA.to_physical_layer(f);
-    }
-    
   }
   
   public void receiver(int index){ 
@@ -81,8 +82,8 @@ public class ProtocolSlidingWindow extends Protocol implements IBidireccional{
         dto.setKindError("Error de Timeout");
         dto.setFrame(r);
           
-        print("Delay: " + str(tiempoDelay));
-        delay(tiempoDelay);
+        // print("Delay: " + str(tiempoDelay));
+        // delay(tiempoDelay);
         sender(index, true);
       }
     }
@@ -91,11 +92,8 @@ public class ProtocolSlidingWindow extends Protocol implements IBidireccional{
       dto.setKindError("Error de Checksum");
       dto.setFrame(r);
       
-      print(dto.getProtocol());
-      print(dto.getKindError());
-      
-      print("Delay: " + str(tiempoDelay));
-      delay(tiempoDelay);
+      // print("Delay: " + str(tiempoDelay));
+      // delay(tiempoDelay);
       sender(index, true);
     }
   }

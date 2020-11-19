@@ -2,7 +2,7 @@ public abstract class Protocol{
   NetworkLayer networkLayerA;
   PhysicalLayer physicalLayerA;
   
-  NetworkLayer networkLayerB;
+  // NetworkLayer networkLayerB;
   PhysicalLayerB physicalLayerB;
   
   int checksum;
@@ -12,4 +12,10 @@ public abstract class Protocol{
   int frame_expected;
   DtoManager dto;
   Package buffer;
+  
+  int windowSize;
+  int windowSizeB;
+  
+  int ack_expected;
+  ArrayList<Frame> framePacks;
 }

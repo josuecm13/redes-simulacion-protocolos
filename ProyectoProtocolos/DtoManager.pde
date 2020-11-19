@@ -3,6 +3,7 @@ public class DtoManager{
   String protocol;
   String kindError;
   Frame frame;
+  ArrayList<String> windowInfo = new ArrayList();
   
   /*
   public DtoManager(String protocolo, String tipoError, Frame frame){
@@ -28,11 +29,19 @@ public class DtoManager{
     return kindError;
   }
   
-   public void setFrame(Frame f){
+  public void setFrame(Frame f){
     this.frame = f;
   }
   
   public Frame getFrame(){
     return frame;
+  }
+  
+  public void setWindowInfo(ArrayList<String> s){
+    this.windowInfo = s;
+  }
+  
+  public ArrayList<String> getWindowInfo(){
+    return windowInfo;
   }
 }

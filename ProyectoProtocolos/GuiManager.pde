@@ -1,4 +1,4 @@
-/* //<>// //<>// //<>// //<>// //<>//
+/* //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
 Author: Josue Canales Mena
 Date: 08/11/2020
 */
@@ -109,7 +109,11 @@ public class GuiManager{
             println("Tipo de Error: ", pm.registryError.getKindError());
             println("------------FRAME------------");
             println("Paquete:", pm.registryError.getFrame().getInfo().getData());
-            println("FrameInfo: Secuencia(", pm.registryError.getFrame().getSeq() ,").. Acknowledge(", pm.registryError.getFrame().getAck() ,")\n\n\n\n");
+            println("FrameInfo: Secuencia(", pm.registryError.getFrame().getSeq() ,").. Acknowledge(", pm.registryError.getFrame().getAck() ,")\n");
+            for(String s: pm.registryError.getWindowInfo()){
+              println(s);
+            }
+            println("\n\n\n");
             //pm.registryError
           }
         }
@@ -212,12 +216,26 @@ public class GuiManager{
         f.displaying = false;
         title = "Sliding Window";
         break;
-      }/*case 5:{
-      
+      }case 5:{
+        this.isBidirectional = true;
+        pm = new ProtocolManager(new ProtocolGoBackN(checksum, timeout, aWindow));
+        showComponent(GuiComponents.Frame,0);
+        showComponent(GuiComponents.Frame,1);
+        GuiFrame f = (GuiFrame) findWhereWidthLessThan(GuiComponents.Frame,(int) _width);
+        f.displaying = false;
+        title = "Go Back N";
+        break;
       }case 6:{
-        this.isBidirectinal = true;
+        this.isBidirectional = true;
+        pm = new ProtocolManager(new ProtocolSelectiveRepeat(checksum, timeout, aWindow, bWindow));
+        showComponent(GuiComponents.Frame,0);
+        showComponent(GuiComponents.Frame,1);
+        GuiFrame f = (GuiFrame) findWhereWidthLessThan(GuiComponents.Frame,(int) _width);
+        f.displaying = false;
+        title = "Selective Repeat";
+        break;
       
-      }*/default:{
+      }default:{
         pm = new ProtocolManager(new ProtocolUtopia());
         showComponent(GuiComponents.Frame,0);
       }
