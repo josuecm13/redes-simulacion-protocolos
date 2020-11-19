@@ -34,31 +34,63 @@ public class ProtocolSlidingWindow extends Protocol implements IBidireccional{
   }
   
   public void receiver(int index){ 
-    if(index == 0){ // B
-      Frame r = new Frame();
-      r = physicalLayerA.from_physical_layer();
-      if(r.getSeq() == frame_expected){
-        networkLayerA.to_network_layer(r.getInfo());
-        frame_expected = inc(frame_expected);
+    Frame r = new Frame();
+    r = physicalLayerA.from_physical_layer();
+    
+    int tiempoDelay = (int) random(1000, 3000);
+    
+    float numRanCheck = random(0, 100);
+    float numRanTime = random(0, 100);
+    boolean checksumOk = (numRanCheck > 50 - checksum/2) && (numRanCheck < 50 + checksum/2);
+    boolean timeoutOk = (numRanTime > 50 - timeout/2) && (numRanTime < 50 + timeout/2);
+    
+    if(!checksumOk){
+      if(!timeoutOk){
+        if(index == 0){ // B
+          if(r.getSeq() == frame_expected){
+            networkLayerA.to_network_layer(r.getInfo());
+            frame_expected = inc(frame_expected);
+          }
+          if(r.getAck() == next_frame_to_send){
+            buffer = networkLayerA.from_network_layer();
+            next_frame_to_send = inc(next_frame_to_send);
+          }
+          sender(1, false);
+        }
+        else{
+          if(r.getSeq() == frame_expected){
+            networkLayerA.to_network_layer(r.getInfo());
+            frame_expected = inc(frame_expected);
+          }
+          if(r.getAck() == next_frame_to_send){
+            buffer = networkLayerA.from_network_layer();
+            next_frame_to_send = inc(next_frame_to_send);
+          }
+          sender(0, false);
+        }
       }
-      if(r.getAck() == next_frame_to_send){
-        buffer = networkLayerA.from_network_layer();
-        next_frame_to_send = inc(next_frame_to_send);
+      else{
+        dto.setProtocol("Protocolo Sliding Window");
+        dto.setKindError("Error de Timeout");
+        dto.setFrame(r);
+          
+        print(dto.getProtocol());
+        print(dto.getKindError());
+          
+        delay(tiempoDelay);
+        sender(index, true);
       }
-      sender(1, false);
     }
     else{
-      Frame r = new Frame();
-      r = physicalLayerA.from_physical_layer();
-      if(r.getSeq() == frame_expected){
-        networkLayerA.to_network_layer(r.getInfo());
-        frame_expected = inc(frame_expected);
-      }
-      if(r.getAck() == next_frame_to_send){
-        buffer = networkLayerA.from_network_layer();
-        next_frame_to_send = inc(next_frame_to_send);
-      }
-      sender(0, false);
+      dto.setProtocol("Protocolo Sliding Window");
+      dto.setKindError("Error de Checksum");
+      dto.setFrame(r);
+      
+      print(dto.getProtocol());
+      print(dto.getKindError());
+      
+      delay(tiempoDelay);
+      sender(index, true);
     }
   }
   
