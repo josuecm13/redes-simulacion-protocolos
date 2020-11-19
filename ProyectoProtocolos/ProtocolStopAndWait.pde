@@ -18,9 +18,15 @@ public class ProtocolStopAndWait extends Protocol implements IUnidireccional{
     int tiempoDelay = (int) random(1000, 3000);
     Frame r = new Frame();
     r = physicalLayerA.from_physical_layer();
-    print(r.getInfo().getData());
     networkLayerA.to_network_layer(r.getInfo());
+    
+    dto.setProtocol("Protocolo Stop And Wait");
+    dto.setKindError("Sin errores");
+    dto.setFrame(r);
+    
+    println("Delay: " + str(tiempoDelay));
     delay(tiempoDelay);
+    
     sender(false);
   }
 }

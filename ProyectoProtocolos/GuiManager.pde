@@ -17,6 +17,7 @@ public class GuiManager{
   Boolean inMenu, isBidirectional;
   ArrayList<TextBox> settings;
   int indexMachine = 0;
+  String title = "Simulador de Protocolos";
   
   ProtocolManager pm;
   
@@ -31,8 +32,8 @@ public class GuiManager{
     settings = new ArrayList();
     initComponents();
   }
-  
-  public GuiManager(float w, float h, ArrayList<GuiComponents> components){ //<>// //<>//
+   //<>//
+  public GuiManager(float w, float h, ArrayList<GuiComponents> components){ //<>//
     this._width = w; //<>//
     this._height = h;
     this.refreshRate = 30;
@@ -70,20 +71,24 @@ public class GuiManager{
         t.DRAW();
       }
     }else{
+      text(title, 20, 20);
       for(Placeable p: showing){
         if(isType(p, GuiComponents.Frame)){
           if(((GuiFrame) p).arrived == true){
             println("==============ESTADO ACTUAL===============");
             if(isBidirectional){
-              // Notificar al ProcolManager que el paquete ya llego
+              // Notificar al ProcolManager que el paquete ya llego //<>//
               pm.arrived(indexMachine);
-              /*GuiFrame f; //<>//
+              GuiFrame frame;
               if(indexMachine == 0){
-                f = (GuiFrame) findWhereWidthLessThan(GuiComponents.Frame,(int) _width/2);
+                frame = (GuiFrame) findWhereWidthLessThan(GuiComponents.Frame, (int) _width/2);
+                frame.arrived = false;
+                println("LLegó paquete de (A -> B)");
               }else{
-                f = (GuiFrame) findWhereWidthLessThan(GuiComponents.Frame,(int) _width);
+                frame = (GuiFrame) findWhereWidthLessThan(GuiComponents.Frame, (int) _width);
+                frame.arrived = false;
+                println("LLegó paquete de (B -> A)");
               }
-              f.displaying = false;*/
               ((GuiFrame) p).displaying=false;
               ((GuiFrame) p).play(false);
               indexMachine = (indexMachine+1)%2;
@@ -141,15 +146,15 @@ public class GuiManager{
     for(Placeable p: allComponents){
       if(!isType(p, GuiComponents.Frame))
         showing.add(p);
-    }
+    } //<>//
     
   }
-  
+   //<>//
   public void showComponent(GuiComponents comp, int index){
-    for (Placeable c: allComponents){ //<>// //<>//
+    for (Placeable c: allComponents){ //<>//
       if(isType(c, comp)){
         if( index != 0 ){
-          index --;   //<>// //<>//
+          index --;   //<>//
         }else{
           ((GuiFrame) c).play(true);
           showing.add(c);
@@ -186,14 +191,17 @@ public class GuiManager{
       case 1:{
         pm = new ProtocolManager(new ProtocolUtopia()); //<>//
         showComponent(GuiComponents.Frame,0);
+        title = "Utopía";
         break;
       }case 2:{
         pm = new ProtocolManager(new ProtocolStopAndWait());
         showComponent(GuiComponents.Frame,0);
+        title = "Stop and Wait";
         break;
       }case 3:{
         pm = new ProtocolManager(new ProtocolPar(checksum, timeout));
         showComponent(GuiComponents.Frame,0);
+        title = "PAR";
         break;
       }case 4:{
         this.isBidirectional = true;
@@ -202,6 +210,7 @@ public class GuiManager{
         showComponent(GuiComponents.Frame,1);
         GuiFrame f = (GuiFrame) findWhereWidthLessThan(GuiComponents.Frame,(int) _width);
         f.displaying = false;
+        title = "Sliding Window";
         break;
       }/*case 5:{
       
@@ -231,6 +240,15 @@ public class GuiManager{
       TextBox checksumError = new TextBox(_width/4 + 250, _height/4, 150, 30, "Checksum Error % (0-100)");
       TextBox timeoutError = new TextBox(_width/4 + 500, _height/4, 150, 30, "Timeout Error % (0-100)");
       TextBox velocidad = new TextBox(_width/4, _height/4 + 70, 150, 30, "Velocidad {12...200}");
+      TextBox aWindowSize = new TextBox(_width/4 + 250, _height/4 + 70, 150, 30, "Ventana A, p {5,6} ");
+      TextBox bWindowSize = new TextBox(_width/4 + 500, _height/4 + 70, 150, 30, "Ventana B, p {6} ");
+      
+      protype.Text = "1";
+      checksumError.Text = "0";
+      timeoutError.Text = "0";
+      velocidad.Text = "50";
+      aWindowSize.Text = "3";
+      bWindowSize.Text = "3";
       
       TextBox buttonConfirm = new TextBox(_width/2 - 10,  _height/2, 250, 40);
       buttonConfirm.Text = "\tEmpezar simulación";
@@ -240,6 +258,8 @@ public class GuiManager{
       settings.add(timeoutError);
       settings.add(velocidad);
       settings.add(buttonConfirm);
+      settings.add(aWindowSize);
+      settings.add(bWindowSize);
     }
     
     

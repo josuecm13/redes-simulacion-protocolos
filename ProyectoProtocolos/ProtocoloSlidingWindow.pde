@@ -53,6 +53,11 @@ public class ProtocolSlidingWindow extends Protocol implements IBidireccional{
             buffer = networkLayerA.from_network_layer();
             next_frame_to_send = inc(next_frame_to_send);
           }
+          
+          dto.setProtocol("Protocolo Sliding Window");
+          dto.setKindError("Sin errores");
+          dto.setFrame(r);
+          
           sender(1, false);
         }
         else{
@@ -64,6 +69,10 @@ public class ProtocolSlidingWindow extends Protocol implements IBidireccional{
             buffer = networkLayerA.from_network_layer();
             next_frame_to_send = inc(next_frame_to_send);
           }
+          dto.setProtocol("Protocolo Sliding Window");
+          dto.setKindError("Sin errores");
+          dto.setFrame(r);
+          
           sender(0, false);
         }
       }
@@ -72,9 +81,7 @@ public class ProtocolSlidingWindow extends Protocol implements IBidireccional{
         dto.setKindError("Error de Timeout");
         dto.setFrame(r);
           
-        print(dto.getProtocol());
-        print(dto.getKindError());
-          
+        print("Delay: " + str(tiempoDelay));
         delay(tiempoDelay);
         sender(index, true);
       }
@@ -87,6 +94,7 @@ public class ProtocolSlidingWindow extends Protocol implements IBidireccional{
       print(dto.getProtocol());
       print(dto.getKindError());
       
+      print("Delay: " + str(tiempoDelay));
       delay(tiempoDelay);
       sender(index, true);
     }

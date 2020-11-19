@@ -30,17 +30,22 @@ public class ProtocolPar extends Protocol implements IUnidireccional{
     if(!checksumOk){
       if(!timeoutOk){
         networkLayerA.to_network_layer(r.getInfo());
+        
+        dto.setProtocol("Protocolo PAR");
+        dto.setKindError("Sin errores");
+        dto.setFrame(r);
+        
+        println("Delay: " + str(tiempoDelay));
         delay(tiempoDelay);
+        
         sender(false);
       }
       else{
         dto.setProtocol("Protocolo PAR");
         dto.setKindError("Error de Timeout");
         dto.setFrame(r);
-        
-        print(dto.getProtocol());
-        print(dto.getKindError());
-        
+       
+        println("Delay: " + str(tiempoDelay)); 
         delay(tiempoDelay);
         sender(true);
       }
@@ -50,9 +55,7 @@ public class ProtocolPar extends Protocol implements IUnidireccional{
       dto.setKindError("Error de Checksum");
       dto.setFrame(r);
       
-      print(dto.getProtocol());
-      print(dto.getKindError());
-      
+      println("Delay: " + str(tiempoDelay));
       delay(tiempoDelay);
       sender(true);
     }
