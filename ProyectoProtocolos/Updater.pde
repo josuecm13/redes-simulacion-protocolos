@@ -89,7 +89,6 @@ public class Updater{
   
   public void frameSent(){
     this.manager.arrived = true;
-    print("Entregó Frame\n");
   }
   
   public void setStepRate(float stepRate){

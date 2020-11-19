@@ -20,7 +20,14 @@ public class ProtocolStopAndWait extends Protocol implements IUnidireccional{
     r = physicalLayerA.from_physical_layer();
     print(r.getInfo().getData());
     networkLayerA.to_network_layer(r.getInfo());
+    
+    dto.setProtocol("Protocolo Stop And Wait");
+    dto.setKindError("Sin errores");
+    dto.setFrame(r);
+    
+    print("Delay: " + str(tiempoDelay));
     delay(tiempoDelay);
+    
     sender(false);
   }
 }
